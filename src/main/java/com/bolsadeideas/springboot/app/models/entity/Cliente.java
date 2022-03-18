@@ -26,7 +26,7 @@ public class Cliente implements Serializable {
 
 	private String apellido;
 
-	private String fecha;
+	private String email;
 
 	// @Temporal(TemporalType.DATE), Indica el formato en que será guardado la fecha
 	// de java en la tabla de la BD. En nuestro caso solo guardará fecha
@@ -58,12 +58,12 @@ public class Cliente implements Serializable {
 		this.apellido = apellido;
 	}
 
-	public String getFecha() {
-		return fecha;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setFecha(String fecha) {
-		this.fecha = fecha;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public Date getCreateAt() {
