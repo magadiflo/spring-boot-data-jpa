@@ -14,25 +14,29 @@
 		<h1 th:text="${titulo}" class="text-center my-3"></h1>
 		<div class="card mt-5">
 			<div class="card-body">
-				<form>
+				<form th:action="@{/form}" th:object="${cliente}" method="POST" autocomplete="off">
+					<input type="hidden" th:field="*{id}">
 					<div class="mb-3">
-						<label for="exampleInputEmail1" class="form-label">Email
-							address</label> <input type="email" class="form-control"
-							id="exampleInputEmail1" aria-describedby="emailHelp">
-						<div id="emailHelp" class="form-text">We'll never share your
-							email with anyone else.</div>
+						<label for="nombre" class="form-label">Nombre</label> 
+						<input type="text" class="form-control" th:field="*{nombre}">
+						<div class="form-text text-danger">Error en validación</div>
 					</div>
 					<div class="mb-3">
-						<label for="exampleInputPassword1" class="form-label">Password</label>
-						<input type="password" class="form-control"
-							id="exampleInputPassword1">
+						<label for="apellido" class="form-label">Apellido</label> 
+						<input type="text" class="form-control" th:field="*{apellido}">
+						<div class="form-text text-danger">Error en validación</div>
 					</div>
-					<div class="mb-3 form-check">
-						<input type="checkbox" class="form-check-input" id="exampleCheck1">
-						<label class="form-check-label" for="exampleCheck1">Check
-							me out</label>
+					<div class="mb-3">
+						<label for="email" class="form-label">Email</label> 
+						<input type="email" class="form-control" th:field="*{email}">
+						<div class="form-text text-danger">Error en validación</div>
 					</div>
-					<button type="submit" class="btn btn-primary">Submit</button>
+					<div class="mb-3">
+						<label for="createAt" class="form-label">Fecha</label> 
+						<input type="date" class="form-control" th:field="*{createAt}">
+						<div class="form-text text-danger">Error en validación</div>
+					</div>
+					<button type="submit" class="btn btn-primary">Guardar</button>
 				</form>
 			</div>
 		</div>
