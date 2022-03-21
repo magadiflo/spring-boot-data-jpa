@@ -19,22 +19,22 @@
 					<div class="mb-3">
 						<label for="nombre" class="form-label">Nombre</label> 
 						<input type="text" class="form-control" th:field="*{nombre}">
-						<div class="form-text text-danger">Error en validación</div>
+						<div class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
 					</div>
 					<div class="mb-3">
 						<label for="apellido" class="form-label">Apellido</label> 
 						<input type="text" class="form-control" th:field="*{apellido}">
-						<div class="form-text text-danger">Error en validación</div>
+						<div class="form-text text-danger" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
 					</div>
 					<div class="mb-3">
 						<label for="email" class="form-label">Email</label> 
-						<input type="email" class="form-control" th:field="*{email}">
-						<div class="form-text text-danger">Error en validación</div>
+						<input type="text" class="form-control" th:field="*{email}">
+						<div class="form-text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
 					</div>
 					<div class="mb-3">
 						<label for="createAt" class="form-label">Fecha</label> 
 						<input type="date" class="form-control" th:field="*{createAt}">
-						<div class="form-text text-danger">Error en validación</div>
+						<div class="form-text text-danger" th:if="${#fields.hasErrors('createAt')}" th:errors="*{createAt}"></div>
 					</div>
 					<button type="submit" class="btn btn-primary">Guardar</button>
 				</form>
