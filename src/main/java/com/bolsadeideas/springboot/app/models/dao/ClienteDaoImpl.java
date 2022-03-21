@@ -22,4 +22,10 @@ public class ClienteDaoImpl implements IClienteDao {
 		return this.em.createQuery("SELECT c FROM Cliente c", Cliente.class).getResultList();
 	}
 
+	@Override
+	@Transactional
+	public void save(Cliente cliente) {
+		this.em.persist(cliente);
+	}
+
 }
