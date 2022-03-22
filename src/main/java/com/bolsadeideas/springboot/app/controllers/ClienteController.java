@@ -63,7 +63,15 @@ public class ClienteController {
 			return "form";
 		}
 		this.clienteDao.save(cliente);
-		status.setComplete(); //Elimina el objeto cliente de la sesión (fue declarado al inicio de esta clase)
+		status.setComplete(); // Elimina el obj. cliente de la sesión (se declarado al inicio de la clase)
+		return "redirect:/listar";
+	}
+
+	@RequestMapping(value = "/eliminar/{id}")
+	public String delete(@PathVariable Long id) {
+		if (id > 0) {
+			this.clienteDao.delete(id);
+		}
 		return "redirect:/listar";
 	}
 
