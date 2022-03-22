@@ -42,7 +42,7 @@ public class Cliente implements Serializable {
 	// de java en la tabla de la BD. En nuestro caso solo guardará fecha
 	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "yyyy-MM-ddd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@NotNull
 	private Date createAt;
 	

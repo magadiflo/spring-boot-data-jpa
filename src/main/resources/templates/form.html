@@ -20,7 +20,6 @@
 					</ul>
 				</div>
 				<form th:action="@{/form}" th:object="${cliente}" method="POST" autocomplete="off">
-					<input type="hidden" th:field="*{id}">
 					<div class="mb-3">
 						<label for="nombre" class="form-label">Nombre</label> 
 						<input type="text" class="form-control" th:field="*{nombre}">
@@ -38,7 +37,7 @@
 					</div>
 					<div class="mb-3">
 						<label for="createAt" class="form-label">Fecha</label> 
-						<input type="date" class="form-control" th:field="*{createAt}">
+						<input type="text" class="form-control" th:field="*{createAt}">
 						<div class="form-text text-danger" th:if="${#fields.hasErrors('createAt')}" th:errors="*{createAt}"></div>
 					</div>
 					<button type="submit" class="btn btn-primary">Guardar</button>
