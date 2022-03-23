@@ -12,7 +12,7 @@
 						<li th:each="err: ${#fields.errors('*')}" th:text="${err}"></li>
 					</ul>
 				</div>
-				<form th:action="@{/form}" th:object="${cliente}" method="POST" autocomplete="off">
+				<form th:action="@{/form}" th:object="${cliente}" method="POST" autocomplete="off" enctype="multipart/form-data">
 					<div class="mb-3">
 						<label for="nombre" class="form-label">Nombre</label> 
 						<input type="text" class="form-control" th:field="*{nombre}">
