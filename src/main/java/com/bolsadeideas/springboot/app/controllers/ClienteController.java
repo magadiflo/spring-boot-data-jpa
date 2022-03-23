@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -37,11 +38,11 @@ public class ClienteController {
 
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
-		Pageable pageRequest = PageRequest.of(page, 5); //5 registros por página
+		Pageable pageRequest = PageRequest.of(page, 5); // 5 registros por página
 		Page<Cliente> clientesPage = this.clienteService.findAll(pageRequest);
-		
+
 		PageRender<Cliente> pageRender = new PageRender<>("/listar", clientesPage);
-		
+
 		model.addAttribute("titulo", "Listado de clientes");
 		model.addAttribute("clientes", clientesPage);
 		model.addAttribute("page", pageRender);
@@ -75,7 +76,8 @@ public class ClienteController {
 	}
 
 	@RequestMapping(value = "/form", method = RequestMethod.POST)
-	public String guardar(@Valid Cliente cliente, BindingResult result, Model model, @RequestParam("file") MultipartFile foto, RedirectAttributes flash, SessionStatus status) {
+	public String guardar(@Valid Cliente cliente, BindingResult result, Model model,
+			@RequestParam("file") MultipartFile foto, RedirectAttributes flash, SessionStatus status) {
 		if (result.hasErrors()) {
 			// En automático el objeto cliente pasará al formulario, siempre y cuando
 			// el nombre cliente sea igual al atributo que se le pasa a la vista
@@ -84,23 +86,29 @@ public class ClienteController {
 			model.addAttribute("titulo", "Formulario de cliente - Corregir");
 			return "form";
 		}
-		
-		if(!foto.isEmpty()) {
+
+		if (!foto.isEmpty()) {
 			Path directorioRecursos = Paths.get("src//main//resources//static//uploads");
 			String rootPath = directorioRecursos.toFile().getAbsolutePath();
 			try {
 				byte[] bytes = foto.getBytes();
-				Path rutaCompleta = Paths.get(rootPath + "//" + foto.getOriginalFilename());
+				// --Martín
+				int lastIndex = foto.getOriginalFilename().lastIndexOf(".");
+				String extensionArchivo = foto.getOriginalFilename().substring(lastIndex);
+				UUID uuid = UUID.randomUUID();
+				String nuevoNombreArchivo = uuid.toString() + extensionArchivo;
+				Path rutaCompleta = Paths.get(rootPath + "//" + nuevoNombreArchivo);
+				// --
 				Files.write(rutaCompleta, bytes);
-				flash.addFlashAttribute("info", "Has subido correctamente '" + foto.getOriginalFilename() + "'");
-				
-				//Asignando foto al cliente para guardar en la BD
-				cliente.setFoto(foto.getOriginalFilename());
+				flash.addFlashAttribute("info", "Has subido correctamente '" + nuevoNombreArchivo + "'");
+
+				// Asignando foto al cliente para guardar en la BD
+				cliente.setFoto(nuevoNombreArchivo);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		String msg = cliente.getId() != null ? "Cliente actualizado con éxito" : "Cliente creado con éxito";
 		this.clienteService.save(cliente);
 		status.setComplete(); // Elimina el obj. cliente de la sesión (se declarado al inicio de la clase)
