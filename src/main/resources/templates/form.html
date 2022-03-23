@@ -33,6 +33,10 @@
 						<input type="text" class="form-control" th:field="*{createAt}">
 						<div class="form-text text-danger" th:if="${#fields.hasErrors('createAt')}" th:errors="*{createAt}"></div>
 					</div>
+					<div class="mb-3">
+					  <label for="file" class="form-label">Foto</label>
+					  <input type="file" name="file" id="file" class="form-control">
+					</div>
 					<button type="submit" class="btn btn-primary">Guardar</button>
 				</form>
 			</div>

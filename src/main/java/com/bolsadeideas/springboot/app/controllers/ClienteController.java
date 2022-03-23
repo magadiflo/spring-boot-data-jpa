@@ -1,5 +1,9 @@
 package com.bolsadeideas.springboot.app.controllers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bolsadeideas.springboot.app.models.entity.Cliente;
@@ -70,7 +75,7 @@ public class ClienteController {
 	}
 
 	@RequestMapping(value = "/form", method = RequestMethod.POST)
-	public String guardar(@Valid Cliente cliente, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status) {
+	public String guardar(@Valid Cliente cliente, BindingResult result, Model model, @RequestParam("file") MultipartFile foto, RedirectAttributes flash, SessionStatus status) {
 		if (result.hasErrors()) {
 			// En automático el objeto cliente pasará al formulario, siempre y cuando
 			// el nombre cliente sea igual al atributo que se le pasa a la vista
@@ -79,6 +84,23 @@ public class ClienteController {
 			model.addAttribute("titulo", "Formulario de cliente - Corregir");
 			return "form";
 		}
+		
+		if(!foto.isEmpty()) {
+			Path directorioRecursos = Paths.get("src//main//resources//static//uploads");
+			String rootPath = directorioRecursos.toFile().getAbsolutePath();
+			try {
+				byte[] bytes = foto.getBytes();
+				Path rutaCompleta = Paths.get(rootPath + "//" + foto.getOriginalFilename());
+				Files.write(rutaCompleta, bytes);
+				flash.addFlashAttribute("info", "Has subido correctamente '" + foto.getOriginalFilename() + "'");
+				
+				//Asignando foto al cliente para guardar en la BD
+				cliente.setFoto(foto.getOriginalFilename());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		String msg = cliente.getId() != null ? "Cliente actualizado con éxito" : "Cliente creado con éxito";
 		this.clienteService.save(cliente);
 		status.setComplete(); // Elimina el obj. cliente de la sesión (se declarado al inicio de la clase)
