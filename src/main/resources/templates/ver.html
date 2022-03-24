@@ -5,8 +5,8 @@
 	<header th:replace="layout/layout::header"></header>
 	<main class="container mt-4">
 		<div class="card" style="width: 18rem;">
-			<img th:if="${#strings.length(cliente.foto) > 0}" th:src="@{/uploads/} + ${cliente.foto}" class="card-img-top" th:alt="${cliente.foto}">
-			<img th:if="${not (#strings.length(cliente.foto) > 0)}" th:src="@{/images/default.png}" class="card-img-top" alt="Sin foto">
+			<img th:if="${cliente.foto != null and (#strings.length(cliente.foto) > 0)}" th:src="@{/uploads/} + ${cliente.foto}" class="card-img-top" th:alt="${cliente.foto}">
+			<img th:if="${cliente.foto == null or not (#strings.length(cliente.foto) > 0)}" th:src="@{/images/default.png}" class="card-img-top" alt="Sin foto">
 			<div class="card-body">
 				<h5 class="card-title" th:text="${titulo}"></h5>
 				<p class="card-text">
