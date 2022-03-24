@@ -1,5 +1,6 @@
 package com.bolsadeideas.springboot.app.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -44,12 +45,14 @@ public class ClienteController {
 	@Autowired
 	private IClienteService clienteService;
 	
+	private final static String UPLOADS_FOLDER = "uploads";
+	
 	private final Logger log = LoggerFactory.getLogger(getClass());
 	
 	//.+, permite que Spring no trunque o borre la extensión del archivo
 	@GetMapping(value = "/uploads/{filename:.+}")
 	public ResponseEntity<Resource> verFoto(@PathVariable String filename) {
-		Path pathFoto = Paths.get("uploads").resolve(filename).toAbsolutePath();
+		Path pathFoto = Paths.get(ClienteController.UPLOADS_FOLDER).resolve(filename).toAbsolutePath();
 		log.info("pathFoto: " + pathFoto);
 		
 		Resource recurso = null;
@@ -132,6 +135,16 @@ public class ClienteController {
 		}
 
 		if (!foto.isEmpty()) {
+			if(cliente.getId() != null && cliente.getId() > 0 && cliente.getFoto() != null && cliente.getFoto().length() > 0) {
+				
+				Path rootPath = Paths.get(ClienteController.UPLOADS_FOLDER).resolve(cliente.getFoto()).toAbsolutePath();
+				File archivo = rootPath.toFile();
+				
+				if(archivo.exists() && archivo.canRead()) {
+					archivo.delete();
+				}
+								
+			}
 			// --Martín
 			int lastIndex = foto.getOriginalFilename().lastIndexOf(".");
 			String extensionArchivo = foto.getOriginalFilename().substring(lastIndex);
@@ -139,7 +152,7 @@ public class ClienteController {
 			String nuevoNombreArchivo = uuid.toString() + extensionArchivo;
 			// --
 
-			Path rootPath = Paths.get("uploads").resolve(nuevoNombreArchivo);
+			Path rootPath = Paths.get(ClienteController.UPLOADS_FOLDER).resolve(nuevoNombreArchivo);
 			Path rootAbsolutPath = rootPath.toAbsolutePath();
 			
 			log.info("rootPath: "+ rootPath);
@@ -168,8 +181,22 @@ public class ClienteController {
 	@RequestMapping(value = "/eliminar/{id}")
 	public String delete(@PathVariable Long id, RedirectAttributes flash) {
 		if (id > 0) {
+			Cliente cliente = this.clienteService.findOne(id);
+			
 			this.clienteService.delete(id);
 			flash.addFlashAttribute("success", "Cliente eliminado con éxito");
+			
+			if(cliente.getFoto() != null && cliente.getFoto().length() > 0) {
+				Path rootPath = Paths.get(ClienteController.UPLOADS_FOLDER).resolve(cliente.getFoto()).toAbsolutePath();
+				File archivo = rootPath.toFile();
+				
+				if(archivo.exists() && archivo.canRead()) {
+					if(archivo.delete()) {
+						flash.addFlashAttribute("info", "Foto " + cliente.getFoto() + " eliminada con éxito!");
+					}
+				}				
+			}
+			
 		}
 		return "redirect:/listar";
 	}
