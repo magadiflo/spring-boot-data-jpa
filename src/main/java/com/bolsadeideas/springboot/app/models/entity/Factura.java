@@ -62,6 +62,10 @@ public class Factura implements Serializable {
 		this.items.add(item);
 	}
 
+	public Double getTotal() {
+		return this.items.stream().mapToDouble(item -> item.calcularImporte()).sum();
+	}
+
 	// ----------------- GET AND SET -----------------
 
 	public Long getId() {

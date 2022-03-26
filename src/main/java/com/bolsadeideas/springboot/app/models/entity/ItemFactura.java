@@ -3,9 +3,12 @@ package com.bolsadeideas.springboot.app.models.entity;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,9 +23,12 @@ public class ItemFactura implements Serializable {
 
 	private Integer cantidad;
 
-	public Long calcularImporte() {
-		// TODO: Completar cuando se agregue la propiedad Producto
-		return this.cantidad.longValue();
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "producto_id")
+	private Producto producto;
+
+	public Double calcularImporte() {
+		return this.cantidad.doubleValue() * this.producto.getPrecio();
 	}
 
 	// ----------------- GET AND SET -----------------
@@ -41,6 +47,14 @@ public class ItemFactura implements Serializable {
 
 	public void setCantidad(Integer cantidad) {
 		this.cantidad = cantidad;
+	}
+
+	public Producto getProducto() {
+		return producto;
+	}
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
 	}
 
 }
