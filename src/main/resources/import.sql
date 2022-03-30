@@ -24,3 +24,12 @@ INSERT INTO clientes (nombre, apellido, email, create_at, foto) VALUES('John', '
 INSERT INTO clientes (nombre, apellido, email, create_at, foto) VALUES('Joe', 'Bloggs', 'joe.bloggs@gmail.com', '2017-08-23', '');
 INSERT INTO clientes (nombre, apellido, email, create_at, foto) VALUES('John', 'Stiles', 'john.stiles@gmail.com', '2017-08-24', '');
 INSERT INTO clientes (nombre, apellido, email, create_at, foto) VALUES('Richard', 'Roe', 'stiles.roe@gmail.com', '2017-08-25', '');
+
+/* Populate tabla productos */
+INSERT INTO productos(nombre, precio, create_at) VALUES('Panasonic Pantalla LCD', 890, NOW());
+INSERT INTO productos(nombre, precio, create_at) VALUES('Sony Cámara Digital DSC-W320B', 350, NOW());
+INSERT INTO productos(nombre, precio, create_at) VALUES('Apple iPod Shuffle', 2500, NOW());
+INSERT INTO productos(nombre, precio, create_at) VALUES('Sony Noteboo Z110', 3200, NOW());
+INSERT INTO productos(nombre, precio, create_at) VALUES('Hewlett Packard Multifuncional F2280', 1500, NOW());
+INSERT INTO productos(nombre, precio, create_at) VALUES('Bianchi Bicicleta Aro 26', 1200, NOW());
+INSERT INTO productos(nombre, precio, create_at) VALUES('Mica Cómoda 5 Cajones', 970, NOW());

@@ -45,7 +45,7 @@ public class Factura implements Serializable {
 	 * propiedad @JoinColumn(name = "factura_id") para que en la tabla de BD de
 	 * facturas_items cree la llave foránea factura_id
 	 */
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "factura_id")
 	private List<ItemFactura> items;
 

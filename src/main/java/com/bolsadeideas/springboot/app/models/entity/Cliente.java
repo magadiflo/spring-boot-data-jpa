@@ -52,7 +52,8 @@ public class Cliente implements Serializable {
 
 	private String foto;
 
-	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	//orphanRemoval = true: Permite eliminar registros huérfanos que no están asociados a ningún cliente
+	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Factura> facturas;
 
 	public Cliente() {
