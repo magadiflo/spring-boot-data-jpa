@@ -7,6 +7,7 @@
 		<h1 th:text="${titulo}" class="text-center my-3"></h1>
 		<div class="card mt-5">
 			<div class="card-body">
+				<a th:href="@{'/ver/' + ${factura.cliente.id}}" class="btn btn-success btn-sm mb-3" th:text="'Ir al detalle del cliente'"></a>
 				<div th:object="${factura}" th:remove="tag">
 					<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
 						<li th:each="err: ${#fields.errors('*')}" th:text="${err}"></li>

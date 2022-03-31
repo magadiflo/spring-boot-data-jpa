@@ -11,12 +11,13 @@
 					<img th:if="${cliente.foto == null or not (#strings.length(cliente.foto) > 0)}" th:src="@{/images/default.png}" class="card-img-top" alt="Sin foto">
 					<div class="card-body">
 						<h5 class="card-title" th:text="${titulo}"></h5>
-						<ul class="list-group">
+						<ul class="list-group my-2">
 							<li class="list-group-item" th:text="${cliente.nombre}"></li>					
 							<li class="list-group-item" th:text="${cliente.apellido}"></li>					
 							<li class="list-group-item" th:text="${cliente.email}"></li>					
 							<li class="list-group-item" th:text="${cliente.createAt}"></li>					
 						</ul>
+						<a th:href="@{'/factura/form/' + ${cliente.id}}" class="btn btn-primary" th:text="'Crear factura'"></a>
 					</div>
 				</div>				
 			</div>
