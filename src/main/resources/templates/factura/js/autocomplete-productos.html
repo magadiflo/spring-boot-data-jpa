@@ -27,7 +27,13 @@
 					$('#buscar-producto').val(ui.item.label);
 				},
 				select: (event, ui) => {
-					$('#buscar-producto').val(ui.item.label);
+					$('#buscar-producto').val('');
+					let linea = $('#plantilla-items-factura').html();
+					linea = linea.replace(/{ID}/g, ui.item.value);
+					linea = linea.replace(/{NOMBRE}/g, ui.item.label);
+					linea = linea.replace(/{PRECIO}/g, ui.item.precio);
+					
+					$('#cargar-item-productos tbody').append(linea);
 					return false;
 				},
 			}).keydown((e) => {
