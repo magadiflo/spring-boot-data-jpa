@@ -22,11 +22,35 @@
 						},
 					});
 				},
+				focus: (event, ui) => {
+					event.preventDefault();
+					$('#buscar-producto').val(ui.item.label);
+				},
 				select: (event, ui) => {
 					$('#buscar-producto').val(ui.item.label);
 					return false;
 				},
-			});
+			}).keydown((e) => {
+		        let code = (e.keyCode ? e.keyCode : e.which);
+		        let codeBackspace = 8;
+		        let codeSup = 46;
+		        if (code == codeBackspace) {
+		            if (countCodeBackspace == 4) {
+		                $('#buscar-producto').val('');
+		            } else {
+		                countCodeBackspace++;
+		            }
+		        } else if (code == codeSup) {
+		            if (countCodeSup == 4) {
+		            	$('#buscar-producto').val('');
+		            } else {
+		                countCodeSup++;
+		            }
+		        } else {
+		            countCodeBackspace = 0;
+		            countCodeSup = 0;
+		        }
+		    });
 		});
 	</script>
 </body>
