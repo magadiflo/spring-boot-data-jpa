@@ -30,6 +30,7 @@
 						<label for="buscar-producto" class="form-label">Buscar producto</label> 
 						<input type="text" class="form-control" id="buscar-producto" name="buscar-producto">
 					</div>
+					<table th:replace="factura/plantilla-items::items-factura"></table>
 					<button type="submit" class="btn btn-primary" th:text="${titulo}"></button>
 				</form>
 			</div>
