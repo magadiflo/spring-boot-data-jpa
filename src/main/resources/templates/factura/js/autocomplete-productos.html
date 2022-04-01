@@ -34,6 +34,7 @@
 					linea = linea.replace(/{PRECIO}/g, ui.item.precio);
 					
 					$('#cargar-item-productos tbody').append(linea);
+					itemsHelper.calcularImporte(ui.item.value, ui.item.precio, 1);
 					return false;
 				},
 			}).keydown((e) => {
@@ -58,6 +59,12 @@
 		        }
 		    });
 		});
+		
+		let itemsHelper = {
+			calcularImporte: (id, precio, cantidad) => {
+				$('#total-importe-' + id).html(parseInt(precio) * parseInt(cantidad));
+			},
+		}
 	</script>
 </body>
 </html>
