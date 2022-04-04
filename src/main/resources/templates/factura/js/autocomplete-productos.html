@@ -85,6 +85,9 @@
 				$('#cantidad-' + id).val(++cantidad);
 				this.calcularImporte(id, precio, cantidad);
 			},
+			eliminarLineaFactura: (id) => {
+				$(`#row-${id}`).remove();
+			},
 		}
 	</script>
 </body>
