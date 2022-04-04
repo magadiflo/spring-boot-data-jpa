@@ -65,6 +65,15 @@
 		            countCodeSup = 0;
 		        }
 		    });
+			
+			/*Debemos eliminar la plantilla que está dentro del formulario,
+			ya que si lo enviamos, se enviará como plantilla los campos 
+			de item-id y cantidad, y eso marcará un error			
+			*/
+			$("form").submit(function() {
+				$("#plantilla-items-factura").remove();
+				return;
+			});
 		});
 		
 		let itemsHelper = {
