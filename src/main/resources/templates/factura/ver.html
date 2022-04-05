@@ -15,13 +15,40 @@
 				<li class="list-group-item" th:text="${factura.cliente}"></li>
 				<li class="list-group-item" th:text="${factura.cliente.email}"></li>
 			</ul>
-			<ul class="list-group">
+			<ul class="list-group mb-4">
 				<li class="list-group-item list-group-item-success" th:text="'Datos de la factura'"></li>
 				<li class="list-group-item" th:text="'Folio: ' + ${factura.id}"></li>
 				<li class="list-group-item" th:text="'Descripción: ' + ${factura.descripcion}"></li>
 				<li class="list-group-item" th:text="'Observación: ' + ${factura.observacion}"></li>
 				<li class="list-group-item" th:text="'Fecha ' + ${factura.createAt}"></li>
 			</ul>
+			
+			<div class="alert alert-info my-4" th:if="${#lists.isEmpty(factura.items)}" th:text="'No hay líneas para la factura ' + ${factura.descripcion}"></div>
+			
+			<table class="table table-striped table-sm table-hover" th:if="${not #lists.isEmpty(factura.items)}">
+				<thead>
+					<tr>
+						<th>Producto</th>
+						<th>Precio</th>
+						<th>Cantidad</th>
+						<th>Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="itemFactura: ${factura.items}">
+						<td th:text="${itemFactura.producto.nombre}"></td>
+						<td th:text="${itemFactura.producto.precio}"></td>
+						<td th:text="${itemFactura.cantidad}"></td>
+						<td th:text="${itemFactura.calcularImporte()}"></td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th colspan="3">Total</th>
+						<th th:text="${factura.total}"></th>
+					</tr>
+				</tfoot>
+			</table>
 
 			</div>
 		</div>
