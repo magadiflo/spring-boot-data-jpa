@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout::head"></head>
+<body>
+	<header th:replace="layout/layout::header"></header>
+	
+	<main class="container">
+		<h1 th:text="${titulo}" class="text-center my-3"></h1>
+		<div class="card mt-5">
+			<div class="card-body">
+			<a th:href="@{'/ver/' + ${factura.cliente.id}}" class="btn btn-success btn-sm mb-3" th:text="'Ir al detalle del cliente'"></a>
+			
+			<ul class="list-group my-2">
+				<li class="list-group-item list-group-item-primary" th:text="'Datos del cliente'"></li>
+				<li class="list-group-item" th:text="${factura.cliente}"></li>
+				<li class="list-group-item" th:text="${factura.cliente.email}"></li>
+			</ul>
+			<ul class="list-group">
+				<li class="list-group-item list-group-item-success" th:text="'Datos de la factura'"></li>
+				<li class="list-group-item" th:text="'Folio: ' + ${factura.id}"></li>
+				<li class="list-group-item" th:text="'Descripción: ' + ${factura.descripcion}"></li>
+				<li class="list-group-item" th:text="'Observación: ' + ${factura.observacion}"></li>
+				<li class="list-group-item" th:text="'Fecha ' + ${factura.createAt}"></li>
+			</ul>
+
+			</div>
+		</div>
+	</main>
+
+	<footer th:replace="layout/layout::footer"></footer>
+</body>
+</html>

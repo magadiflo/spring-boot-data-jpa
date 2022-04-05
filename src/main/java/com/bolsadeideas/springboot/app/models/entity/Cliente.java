@@ -122,4 +122,13 @@ public class Cliente implements Serializable {
 		this.facturas = facturas;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(nombre);
+		builder.append(" ");
+		builder.append(apellido);
+		return builder.toString();
+	}
+
 }
