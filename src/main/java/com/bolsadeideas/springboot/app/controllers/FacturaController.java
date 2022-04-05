@@ -111,7 +111,11 @@ public class FacturaController {
 	@GetMapping("/ver/{id}")
 	public String ver(@PathVariable(value = "id") Long id, Model model, RedirectAttributes flash) {
 		
-		Factura factura = this.clienteService.findFacturaById(id);
+		//Con esto se realiza una única consulta para que traiga los datos de 
+		//toda la relación: cliente, factura, itemFactura y producto.
+		//Con esto ya no hay carga perezosa (lazy)
+		Factura factura = this.clienteService.fetchFacturaByIdWithClienteWithItemFacturaWithProducto(id);
+		
 		if(factura == null) {
 			flash.addFlashAttribute("error", "La factura no existe en la base de datos");
 			return "redirect:/listar";
