@@ -35,7 +35,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		// passwordEncoder(password -> encoder.encode(password))
 		UserBuilder users = User.builder().passwordEncoder(encoder::encode);
 
-		builder.inMemoryAuthentication().withUser(users.username("admin").password("12345").roles("ADMIN", "USER"))
+		builder.inMemoryAuthentication()
+				.withUser(users.username("admin").password("12345").roles("ADMIN", "USER"))
 				.withUser(users.username("magadiflo").password("12345").roles("USER"));
 	}
 
@@ -48,7 +49,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/form/**").hasAnyRole("ADMIN")
 				.antMatchers("/eliminar/**").hasAnyRole("ADMIN")
 				.antMatchers("/factura/**").hasAnyRole("ADMIN")
-				.anyRequest().authenticated();
+				.anyRequest().authenticated()
+				.and()
+				.formLogin().permitAll()
+				.and()
+				.logout().permitAll();
 
 	}
 
