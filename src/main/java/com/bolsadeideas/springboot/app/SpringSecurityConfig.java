@@ -11,8 +11,13 @@ import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bolsadeideas.springboot.app.auth.handler.LoginSuccessHandler;
+
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+	private LoginSuccessHandler successHandler; //Nos permitirá enviar el mensaje de que se inició sesión
 
 	// @Bean: para guardar el objeto creado con new BCryptPasswordEncoder() en el
 	// contenedor. Esto será usado por defecto por Spring Security
@@ -51,7 +56,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/factura/**").hasAnyRole("ADMIN")
 				.anyRequest().authenticated()
 				.and()
-				.formLogin().loginPage("/login").permitAll()
+				.formLogin().successHandler(this.successHandler).loginPage("/login").permitAll()
 				.and()
 				.logout().permitAll()
 				.and()
