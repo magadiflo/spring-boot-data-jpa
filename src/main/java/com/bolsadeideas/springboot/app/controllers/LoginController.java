@@ -11,17 +11,28 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class LoginController {
 
+	// error y logout, son banderas que muestra en automático Spring
+	// al iniciar sesión erroneamente y al cerrar sesión respectivamente
+	// http://localhost:8080/login?error
+	// http://localhost:8080/login?logout
 	@GetMapping("/login")
-	public String login(@RequestParam(value="error", required = false) String error, Model model, Principal principal, RedirectAttributes flash) {
+	public String login(@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "logout", required = false) String logout, Model model, Principal principal,
+			RedirectAttributes flash) {
 		if (principal != null) {
 			flash.addFlashAttribute("info", "Ya ha iniciado sesión anteriomente");
 			return "redirect:/";
 		}
-		
-		if(error != null) {
-			model.addAttribute("error", "Error en el login: Nombre de usuario o contraseña incorrecta. Por favor vuelva a intentarlo!");
+
+		if (error != null) {
+			model.addAttribute("error",
+					"Error en el login: Nombre de usuario o contraseña incorrecta. Por favor vuelva a intentarlo!");
 		}
-		
+
+		if (logout != null) {
+			model.addAttribute("success", "Ha cerrado sesión con éxito!");
+		}
+
 		model.addAttribute("titulo", "Iniciar sesión!");
 		return "login";
 	}
