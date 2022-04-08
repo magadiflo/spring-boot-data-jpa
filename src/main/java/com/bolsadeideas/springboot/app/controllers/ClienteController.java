@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.util.Collection;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
@@ -21,6 +22,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -79,7 +81,7 @@ public class ClienteController {
 	}
 
 	@RequestMapping(value = {"/", "/listar"}, method = RequestMethod.GET)
-	public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model, Authentication authentication) {
+	public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model, Authentication authentication, HttpServletRequest request) {
 		
 		if(authentication != null) {
 			this.logger.info("Hola usuario authenticado, tu username es: ".concat(authentication.getName()));
@@ -91,10 +93,28 @@ public class ClienteController {
 			this.logger.info("Utilizando forma estática SecurityContextHolder.getContext().getAuthentication(): Usuario authenticado, tu username es: ".concat(auth.getName()));
 		}
 		
+		//3 Formas de verificar el role
+		
+		//1° Forma, creando manualmente el método y verificando el role
 		if(this.hasRole("ROLE_ADMIN")) {
-			this.logger.info("Hola ".concat(auth.getName()).concat(" tienes acceso!"));
+			this.logger.info("1° FORMA: Hola ".concat(auth.getName()).concat(" tienes acceso!"));
 		} else {
-			this.logger.info("Hola ".concat(auth.getName()).concat(" no tienes acceso!"));
+			this.logger.info("1° FORMA: Hola ".concat(auth.getName()).concat(" no tienes acceso!"));
+		}
+		
+		//2° Forma, con el SecurityContextHolderAwareRequestWrapper
+		SecurityContextHolderAwareRequestWrapper securityContext = new SecurityContextHolderAwareRequestWrapper(request, "");
+		if(securityContext.isUserInRole("ROLE_ADMIN")) {
+			this.logger.info("2° FORMA: Forma usando SecurityContextHolderAwareRequestWrapper: Hola ".concat(auth.getName()).concat(" tienes acceso!"));
+		} else {
+			this.logger.info("2° FORMA: Forma usando SecurityContextHolderAwareRequestWrapper: Hola ".concat(auth.getName()).concat(" no tienes acceso!"));
+		}
+		
+		//3° Forma, con el HttpServletRequest
+		if(request.isUserInRole("ROLE_ADMIN")) {
+			this.logger.info("3° FORMA: Forma usando HttpServletRequest: Hola ".concat(auth.getName()).concat(" tienes acceso!"));
+		} else {
+			this.logger.info("3° FORMA: Forma usando HttpServletRequest: Hola ".concat(auth.getName()).concat(" no tienes acceso!"));
 		}
 		
 		Pageable pageRequest = PageRequest.of(page, 5); // 5 registros por página
