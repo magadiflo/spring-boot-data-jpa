@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -13,6 +15,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,6 +38,8 @@ import com.bolsadeideas.springboot.app.util.paginator.PageRender;
 @Controller
 @SessionAttributes("cliente")
 public class ClienteController {
+	
+	protected final Log logger = LogFactory.getLog(this.getClass());
 
 	@Autowired
 	private IClienteService clienteService;
@@ -69,7 +75,18 @@ public class ClienteController {
 	}
 
 	@RequestMapping(value = {"/", "/listar"}, method = RequestMethod.GET)
-	public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+	public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model, Authentication authentication) {
+		
+		if(authentication != null) {
+			this.logger.info("Hola usuario authenticado, tu username es: ".concat(authentication.getName()));
+		}
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if(auth != null) {
+			this.logger.info("Utilizando forma estática SecurityContextHolder.getContext().getAuthentication(): Usuario authenticado, tu username es: ".concat(auth.getName()));
+		}
+		
 		Pageable pageRequest = PageRequest.of(page, 5); // 5 registros por página
 		Page<Cliente> clientesPage = this.clienteService.findAll(pageRequest);
 
