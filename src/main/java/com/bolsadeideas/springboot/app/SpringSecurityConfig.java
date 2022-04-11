@@ -1,7 +1,6 @@
 package com.bolsadeideas.springboot.app;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -24,6 +23,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private LoginSuccessHandler successHandler; //Nos permitirá enviar el mensaje de que se inició sesión
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 	// @Bean: para guardar el objeto creado con new BCryptPasswordEncoder() en el
 	// contenedor. Esto será usado por defecto por Spring Security
@@ -33,15 +35,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	// instancia completa
 	// >>>> del bean BCryptPasswordEncoder, y este último necesita a su vez
 	// >>>> una intancia de SpringSecurityConfig
-	@Bean
-	public static BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+	
+	////////////////////// Esta Método lo moveremos a la clase MvcConfig, pero da lo mismo
+	//Lo movemos para mostrar que se puede inyectar con @Autowired
+	//@Bean
+	//public static BCryptPasswordEncoder passwordEncoder() {
+	//	return new BCryptPasswordEncoder();
+	//}
 
 	// @Autowired Para poder inyectar el AuthenticationManagerBuilder
 	@Autowired
 	public void configurerGlobal(AuthenticationManagerBuilder builder) throws Exception {
-		PasswordEncoder encoder = SpringSecurityConfig.passwordEncoder();
+		PasswordEncoder encoder = this.passwordEncoder;
 		// passwordEncoder(encoder::encode): Expresión que sería equivalente a:
 		// passwordEncoder(password -> encoder.encode(password))
 		UserBuilder users = User.builder().passwordEncoder(encoder::encode);

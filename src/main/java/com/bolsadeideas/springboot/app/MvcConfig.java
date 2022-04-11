@@ -1,10 +1,13 @@
 package com.bolsadeideas.springboot.app;
 
+import org.springframework.context.annotation.Bean;
+
 //import java.nio.file.Paths;
 
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 //import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -30,6 +33,23 @@ public class MvcConfig implements WebMvcConfigurer {
 	
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/error_403").setViewName("error_403");		
+	}
+	
+	/////////////////Este método fue movido de la clase SpringSecurityConfig
+	/////////////////para ver que también puede ser inyectado en esa clase
+	/////////////////con el @Autowired ya que este método tiene la anotación
+	////////////////del tipo @Bean
+	// @Bean: para guardar el objeto creado con new BCryptPasswordEncoder() en el
+	// contenedor. Esto será usado por defecto por Spring Security
+	// >>>> static, se colocó static por que mostraba error de que hay una
+	// dependencia circular
+	// >>>> ya que SpringSecurityConfig es un bean en sí misma que necesita de la
+	// instancia completa
+	// >>>> del bean BCryptPasswordEncoder, y este último necesita a su vez
+	// >>>> una intancia de SpringSecurityConfig
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() { //static: Aquí ya no hay problema con la dependencia circular po eso no colocamos static
+		return new BCryptPasswordEncoder();
 	}
 
 }
