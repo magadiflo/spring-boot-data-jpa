@@ -26,10 +26,10 @@
 						<li class="nav-item"><a class="nav-link active"
 							aria-current="page" th:href="@{/}">Inicio</a></li>
 						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+							class="nav-link dropdown-toggle" href="#" id="menuCliente"
 							role="button" data-bs-toggle="dropdown" aria-expanded="false">
 								Clientes </a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<ul class="dropdown-menu" aria-labelledby="menuCliente">
 								<li><a class="dropdown-item" th:href="@{/listar}">Listar</a></li>
 								<li><a class="dropdown-item" th:href="@{/form}">Nuevo</a></li>
 								<li><hr class="dropdown-divider"></li>
@@ -57,11 +57,14 @@
 			           </li>
 					</ul>
 					<ul class="navbar-nav">
-					  <li class="nav-item">
-					  	<a th:href="@{/locale(lang=es_ES)}" class="btn btn-outline-primary btn-sm">ES</a>
-					  	<a th:href="@{/locale(lang=en_US)}" class="btn btn-outline-primary btn-sm">EN</a>
-					  	<a th:href="@{/locale(lang=de_DE)}" class="btn btn-outline-primary btn-sm">DE</a>
-					  </li>
+					  <li class="nav-item dropdown">
+				          <a class="nav-link dropdown-toggle" href="#" id="dropdownLenguaje" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="#{text.locale.language}"></a>
+				          <ul class="dropdown-menu" aria-labelledby="dropdownLenguaje">
+				            <li><a th:href="@{/locale(lang=es_ES)}" class="dropdown-item" th:text="#{text.locale.es}"></a></li>
+				            <li><a th:href="@{/locale(lang=en_US)}" class="dropdown-item" th:text="#{text.locale.en}"></a></li>
+				            <li><a th:href="@{/locale(lang=de_DE)}" class="dropdown-item" th:text="#{text.locale.de}"></a></li>
+				          </ul>
+				      </li>
 					</ul>
 				</div>
 			</div>
