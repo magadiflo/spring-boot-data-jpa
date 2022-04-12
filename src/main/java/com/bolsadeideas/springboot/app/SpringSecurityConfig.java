@@ -1,6 +1,6 @@
 package com.bolsadeideas.springboot.app;
 
-import javax.sql.DataSource;
+//import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;*/
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.bolsadeideas.springboot.app.auth.handler.LoginSuccessHandler;
+import com.bolsadeideas.springboot.app.models.services.JpaUserDetailsService;
 
 //Habilitará el uso de anotaciones que usamos en los controladores para verificar el role
 //securedEnabled = true: Para usar la anotación @Secured("ROLE_USER")
@@ -26,8 +27,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private LoginSuccessHandler successHandler; //Nos permitirá enviar el mensaje de que se inició sesión
 	
+	//@Autowired
+	//private DataSource dataSource;
+	
 	@Autowired
-	private DataSource dataSource;
+	private JpaUserDetailsService userDetailService;
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -62,11 +66,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				.withUser(users.username("magadiflo").password("12345").roles("USER"));
 		*/
 		
+		//CON JDBC
+		/*
 		builder.jdbcAuthentication()
 			.dataSource(this.dataSource)
 			.passwordEncoder(this.passwordEncoder)
 			.usersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username = ?")
 			.authoritiesByUsernameQuery("SELECT u.username, a.authority  FROM authorities AS a INNER JOIN users AS u ON a.user_id = u.id WHERE u.username = ?");
+		*/
+		
+		// CON JPA
+		builder.userDetailsService(this.userDetailService)
+			.passwordEncoder(this.passwordEncoder);
 	}
 
 	@Override

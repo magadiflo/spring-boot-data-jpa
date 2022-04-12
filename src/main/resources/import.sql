@@ -43,3 +43,11 @@ INSERT INTO facturas_items(cantidad, factura_id, producto_id) VALUES(1,1,7);
 
 INSERT INTO facturas(descripcion, observacion, cliente_id, create_at) VALUES('Factura Bicicleta', 'El precio está fue con descuento', 1, NOW());
 INSERT INTO facturas_items(cantidad, factura_id, producto_id) VALUES(3,2,6);
+
+/* Creamos algunos usuarios con sus roles */
+INSERT INTO users(username, PASSWORD, enabled) VALUES('magadiflo', '$2a$10$7.GlaegRST2vK5rzoqwzEOWLiT0a7lUdDw3q8/WVOfdFXCv4MEqGq', 1);
+INSERT INTO users(username, PASSWORD, enabled) VALUES('admin', '$2a$10$sI1L6GBou/n.jHGoRLogGeICjlIaMf2HjxuJrGdwhRvNDHvAdH2q.', 1);
+
+INSERT INTO authorities(user_id, authority) VALUES(1, 'ROLE_USER');
+INSERT INTO authorities(user_id, authority) VALUES(2, 'ROLE_USER');
+INSERT INTO authorities(user_id, authority) VALUES(2, 'ROLE_ADMIN');
