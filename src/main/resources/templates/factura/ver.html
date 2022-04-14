@@ -7,9 +7,11 @@
 	<main class="container">
 		<h1 th:text="${titulo}" class="text-center my-3"></h1>
 		<div class="card mt-5">
-			<div class="card-body">
+			<div class="card-header d-flex justify-content-between">
 				<a th:href="@{'/ver/' + ${factura.cliente.id}}" class="btn btn-success btn-sm mb-3" th:text="'Ir al detalle del cliente'"></a>
-				
+				<a th:href="@{'/factura/ver/' + ${factura.id}(format=pdf)}" class="btn btn-info btn-sm mb-3" th:text="'Ver PDF'"></a>
+			</div>
+			<div class="card-body">				
 				<ul class="list-group my-2">
 					<li class="list-group-item list-group-item-primary" th:text="'Datos del cliente'"></li>
 					<li class="list-group-item" th:text="${factura.cliente}"></li>
