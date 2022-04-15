@@ -22,3 +22,8 @@ jdbc:h2:mem:a92fb3af-ae31-4cb3-aa99-84cc46641970
 
 ## Recordar
 Se puede establecer una configuración personalizada en el archivo application.properties
+
+## iText (Generación de PDF)
+```
+https://api.itextpdf.com/iText5/java/5.5.13.3/
+```
