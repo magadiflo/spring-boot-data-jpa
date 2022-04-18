@@ -30,5 +30,5 @@ https://api.itextpdf.com/iText5/java/5.5.13.3/
 
 ## Excel (xlsx)
 ```
-https://poi.apache.org/
+https://poi.apache.org/components/spreadsheet/examples.html
 ```
