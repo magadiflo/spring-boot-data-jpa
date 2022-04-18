@@ -9,7 +9,10 @@
 		<div class="card mt-5">
 			<div class="card-header d-flex justify-content-between">
 				<a th:href="@{'/ver/' + ${factura.cliente.id}}" class="btn btn-success btn-sm mb-3" th:text="'Ir al detalle del cliente'"></a>
-				<a th:href="@{'/factura/ver/' + ${factura.id}(format=pdf)}" class="btn btn-info btn-sm mb-3" th:text="'Ver PDF'"></a>
+				<div>
+					<a th:href="@{'/factura/ver/' + ${factura.id}(format=pdf)}" class="btn btn-info btn-sm mb-3" th:text="'PDF'"></a>
+					<a th:href="@{'/factura/ver/' + ${factura.id}(format=xlsx)}" class="btn btn-success btn-sm mx-2 mb-3" th:text="'XLSX'"></a>
+				</div>
 			</div>
 			<div class="card-body">				
 				<ul class="list-group my-2">
