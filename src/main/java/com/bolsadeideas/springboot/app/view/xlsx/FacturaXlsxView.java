@@ -20,6 +20,11 @@ import org.springframework.web.servlet.view.document.AbstractXlsxView;
 import com.bolsadeideas.springboot.app.models.entity.Factura;
 import com.bolsadeideas.springboot.app.models.entity.ItemFactura;
 
+/**
+ * Como tenemos otra clase FacturaPdfView cuyo nombre
+ * de componente es factura/ver, es que en este componente
+ * debemos agregarle esa extensión para hacerlo diferente
+ * */
 @Component("factura/ver.xlsx")
 public class FacturaXlsxView extends AbstractXlsxView {
 
