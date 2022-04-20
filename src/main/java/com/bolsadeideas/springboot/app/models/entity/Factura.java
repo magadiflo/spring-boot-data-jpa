@@ -22,6 +22,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.xml.bind.annotation.XmlTransient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "facturas")
 public class Factura implements Serializable {
@@ -42,6 +44,7 @@ public class Factura implements Serializable {
 	private Date createAt;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonBackReference //No queremos que serializar a los clientes para que no haya loop
 	private Cliente cliente;
 	/**
 	 * Como la relación es unidireccional de Factura -> ItemFactura, agregamos la
