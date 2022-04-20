@@ -22,6 +22,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "clientes")
 public class Cliente implements Serializable {
@@ -53,6 +55,7 @@ public class Cliente implements Serializable {
 	private String foto;
 
 	//orphanRemoval = true: Permite eliminar registros huérfanos que no están asociados a ningún cliente
+	@JsonIgnore
 	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Factura> facturas;
 
